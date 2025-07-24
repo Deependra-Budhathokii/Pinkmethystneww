@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { DataTableWithSearch } from "@/components/admin/DataTableWithSearch";
 import { ColumnDef } from "@tanstack/react-table";
