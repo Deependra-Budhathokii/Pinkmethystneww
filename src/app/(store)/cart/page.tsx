@@ -26,7 +26,8 @@ const CartPage = () => {
     };
 
     const handleRemove = (productId: string) => {
-        removeFromCart({ productId });
+        removeFromCart(productId);
+        console.log("productId", productId)
     };
 
     const subtotal = cart.reduce(

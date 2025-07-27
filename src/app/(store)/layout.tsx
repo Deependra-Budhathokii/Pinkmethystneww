@@ -5,6 +5,7 @@ import Providers from "@/components/providers/query-provider";
 import localFont from "next/font/local"
 import { Playfair_Display } from "next/font/google";
 import Footer from "@/components/client/Footer";
+import { CartDrawerProvider } from "@/context/cartDrawerContext";
 
 export const metadata = {
   title: "Pink Amethyst",
@@ -35,11 +36,13 @@ export default function ClientLayout({
   return (
     <html lang="en" className={`${Wilkyasta.variable} ${PlayfairDisplay.variable} font-sans`}>
       <body>
-        <Providers>
-          <Navbar />
-          {children}
-          <Footer />
-        </Providers>
+        <CartDrawerProvider>
+          <Providers>
+            <Navbar />
+            {children}
+            <Footer />
+          </Providers>
+        </CartDrawerProvider>
       </body>
     </html>
   );

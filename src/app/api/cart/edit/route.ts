@@ -12,6 +12,7 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const cookieStore = cookies();
+    8;
     const token = (await cookieStore).get("token");
 
     if (!token) {
@@ -76,10 +77,13 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const prodId = new Types.ObjectId(productId);
-    user.cart = user.cart.filter(
-      (item: any) => !item.productId?.equals(prodId)
-    );
+    // const prodId = new Types.ObjectId(productId);
+
+    user.cart = user.cart.filter((item: any) => {
+      const id = item.productId?._id || item.productId;
+      return id?.toString() !== productId;
+    });
+
     await user.save();
 
     return NextResponse.json({ message: "Item removed", cart: user.cart });
