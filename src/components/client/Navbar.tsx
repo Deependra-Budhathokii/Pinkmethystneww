@@ -299,7 +299,7 @@ export default function Navbar() {
           {user ? (
             <Avatar>
               <AvatarImage
-                src={user.image || "https://github.com/shadcn.png"}
+                src={user.image}
                 alt="User Profile"
               />
               <AvatarFallback>
