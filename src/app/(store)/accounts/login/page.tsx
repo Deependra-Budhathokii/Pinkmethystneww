@@ -11,6 +11,7 @@ import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import PasswordInput from "@/components/ui/passwordInput";
 import Cookies from "js-cookie";
+import { useUser } from "@/context/UserContext";
 
 type LoginFormData = {
   email: string;
@@ -35,6 +36,9 @@ interface LoginResponse {
 }
 
 const LoginPage = () => {
+
+  const { setUser } = useUser();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<LoginFormData>({
@@ -87,28 +91,31 @@ const LoginPage = () => {
       console.log("Login successful");
 
       if (data.token) {
+        // localStorage.setItem("token", data.token);
+        // localStorage.setItem(
+        //   "client",
+        //   JSON.stringify({
+        //     id: data.user.id,
+        //     email: data.user.email,
+        //     name: data.user.name,
+        //     role: data.user.role,
+        //     image: data.user.image,
+        //     district: data.user.district,
+        //     province: data.user.province,
+        //     city: data.user.city,
+        //     street: data.user.street,
+        //     landmark: data.user.landmark,
+        //     phone: data.user.phone,
+        //   })
+        // );
         localStorage.setItem("token", data.token);
-        localStorage.setItem(
-          "client",
-          JSON.stringify({
-            id: data.user.id,
-            email: data.user.email,
-            name: data.user.name,
-            role: data.user.role,
-            image: data.user.image,
-            district: data.user.district,
-            province: data.user.province,
-            city: data.user.city,
-            street: data.user.street,
-            landmark: data.user.landmark,
-            phone: data.user.phone,
-          })
-        );
+        localStorage.setItem("client", JSON.stringify(data.user));
+        setUser(data.user); // ✅ trigger Navbar to update
       }
 
       toast.success("Login successful!");
       router.push("/"); // Redirect to homepage
-      router.refresh(); // Refresh to update auth state
+      // router.refresh(); // Refresh to update auth state
     } catch (error) {
       console.error("Login error:", error);
       const errorMessage =

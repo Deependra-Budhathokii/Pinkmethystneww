@@ -6,6 +6,7 @@ import localFont from "next/font/local"
 import { Playfair_Display } from "next/font/google";
 import Footer from "@/components/client/Footer";
 import { CartDrawerProvider } from "@/context/cartDrawerContext";
+import { UserProvider } from "@/context/UserContext";
 
 export const metadata = {
   title: "Pink Amethyst",
@@ -38,9 +39,11 @@ export default function ClientLayout({
       <body>
 
         <Providers>
-          <Navbar />
-          {children}
-          <Footer />
+          <UserProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </UserProvider>
         </Providers>
 
       </body>

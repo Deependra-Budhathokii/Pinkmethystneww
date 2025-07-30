@@ -26,6 +26,9 @@ import {
 } from "@/components/ui/popover";
 
 import { logout } from '@/actions/logout.action';
+import { useUser } from '@/context/UserContext';
+
+
 
 const collections = [
   {
@@ -171,7 +174,7 @@ const collections = [
 
 
 const profileMenus = [
-  // { title: "Feedback", icon: <Bell size={20} />, to: "/settings/feedback" },
+  { title: "Feedback", icon: <Bell size={20} />, to: "/settings/feedback" },
   {
     title: "Help & Support",
     icon: <HelpCircle size={20} />,
@@ -182,7 +185,8 @@ const profileMenus = [
 ];
 
 export default function Navbar() {
-  const [user, setUser] = useState<LocalUserType | null>();
+  // const [user, setUser] = useState<LocalUserType | null>();
+  const { user, setUser } = useUser();
   const { data: menu, isLoading, isError } = useNavMenu();
   const [popoverOpen, setPopoverOpen] = useState(false);
   // console.log("Menu data", menu)
@@ -205,14 +209,14 @@ export default function Navbar() {
   //     }
   //   }
   // }, []);
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("client");
-    if (storedUserData) {
-      const parsedUserData = JSON.parse(storedUserData);
-      setUser(parsedUserData);
-      console.log("User data", user);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("client");
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setUser(parsedUserData);
+  //     console.log("User data", user);
+  //   }
+  // }, []);
   // const collectionsWithChildren = collections.filter(
   //   (collection) => collection.children
   // );
@@ -329,10 +333,11 @@ export default function Navbar() {
               </PopoverTrigger>
               <PopoverContent className="w-fit border-border/50 p-1" align="end">
                 <ul>
+                  <li className="text-muted-foreground flex items-center gap-4 justify-between text-[#ee8f8f] p-1 px-2 cursor-pointer transition rounded-sm font-medium text-lg">{user.name}</li>
                   {profileMenus.map((item, idx) => (
                     <li key={idx} onClick={() => setPopoverOpen(false)} className="">
                       <Link
-                        className="text-muted-foreground flex items-center gap-4 justify-between hover:bg-secondary p-1 px-2 cursor-pointer transition rounded-sm text-base"
+                        className="text-muted-foreground flex items-center gap-4 justify-between hover:bg-primary p-1 px-2 cursor-pointer transition rounded-sm text-base"
                         href={item.to}
                       >
                         {item.title}
@@ -348,7 +353,7 @@ export default function Navbar() {
                       logout(setUser);
 
                     }}
-                    className="text-destructive flex gap-4 justify-between hover:bg-secondary p-1 px-2 cursor-pointer transition rounded-sm text-base"
+                    className="text-destructive flex gap-4 justify-between hover:bg-primary p-1 px-2 cursor-pointer transition rounded-sm text-base"
                   >
                     LogOut
                     <LogOut size={20} />
