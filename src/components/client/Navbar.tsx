@@ -171,8 +171,6 @@ const collections = [
   },
 ];
 
-
-
 const profileMenus = [
   { title: "Feedback", icon: <Bell size={20} />, to: "/settings/feedback" },
   {
@@ -183,6 +181,7 @@ const profileMenus = [
   { title: "Policy", icon: <ShieldCheck size={20} />, to: "" },
   // { title: "Settings", icon: <Settings size={20} />, to: "/settings" },
 ];
+
 
 export default function Navbar() {
   // const [user, setUser] = useState<LocalUserType | null>();
