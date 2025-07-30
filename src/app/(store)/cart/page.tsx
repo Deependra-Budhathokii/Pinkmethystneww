@@ -6,8 +6,27 @@ import { useCart } from "@/hooks/useCart";
 import { useUpdateCartQuantity } from "@/hooks/useUpdateCartQuantity";
 import { useRemoveFromCart } from "@/hooks/useRemoveFromCart";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 const CartPage = () => {
+
+    const { user } = useUser();
+
+    if (!user) {
+        return (
+            <div className="min-h-screen flex flex-col justify-center items-center text-center p-8">
+                <h2 className="text-2xl font-semibold mb-2">You're not logged in</h2>
+                <p className="text-muted-foreground mb-4">
+                    Please log in to view your cart and continue shopping.
+                </p>
+                <Link href="/accounts/login">
+                    <Button className="bg-pink-500 text-white hover:bg-pink-600">Login</Button>
+                </Link>
+            </div>
+        );
+    }
+
+
     const { data: cart, isLoading, isError } = useCart();
     const { mutate: updateQuantity, isPending: updating } = useUpdateCartQuantity();
     const { mutate: removeFromCart, isPending: removing } = useRemoveFromCart();
@@ -17,6 +36,7 @@ const CartPage = () => {
 
     const handleIncrease = (productId: string, currentQty: number) => {
         updateQuantity({ productId, quantity: currentQty + 1 });
+
     };
 
     const handleDecrease = (productId: string, currentQty: number) => {
@@ -123,8 +143,8 @@ const CartPage = () => {
                     <Link href="/checkout">
                         <Button className="mt-6 w-full bg-[#e6aeb2] hover:bg-[#d7999d] text-white">
 
+                            Checkout
                         </Button>
-                        Checkout
                     </Link>
                 </div>
             </div>

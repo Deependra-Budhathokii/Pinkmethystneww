@@ -23,15 +23,18 @@ import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useCartDrawer } from '@/context/cartDrawerContext';
 import CartDrawer from '@/components/cart/CartDrawer';
+import { useUser } from '@/context/UserContext';
+import { useRouter } from "next/navigation";
 
 
 
 
 const Page = ({ params }: { params: { productId: string } }) => {
 
-
+    const router = useRouter();
     const { mutate: addToCart, isPending } = useAddToCart();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const { user } = useUser();
     // const { openDrawer } = useCartDrawer();
 
 
@@ -58,6 +61,42 @@ const Page = ({ params }: { params: { productId: string } }) => {
 
     if (isLoading) return <LoadingSpinner />;
     if (error) return <div>Error loading product</div>;
+
+    // Handle Add to cart Function
+    const handleAddToCart = () => {
+        if (!user) {
+            toast.error("Please log in to add items to your cart.");
+            setTimeout(() => {
+                router.push("/accounts/login");
+            }, 1000);
+
+            return;
+
+        }
+
+        if (!products || !products._id) {
+            toast.error("Invalid product data.");
+            return;
+        }
+
+        addToCart(
+            {
+                productId: products._id,
+                quantity: 1,
+            },
+            {
+                onSuccess: () => {
+                    toast.dismiss();
+                    toast.success(`${products.name} added to cart!`);
+                    setDrawerOpen(true);
+                },
+                onError: () => {
+                    toast.dismiss();
+                    toast.error("Failed to add to cart. Please try again.");
+                },
+            }
+        );
+    };
 
     return (
         <>
@@ -167,26 +206,7 @@ const Page = ({ params }: { params: { productId: string } }) => {
                         <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full max-w-md">
                             <button
                                 disabled={isPending}
-                                onClick={() =>
-                                    addToCart(
-                                        {
-                                            productId: products._id,
-                                            quantity: 1,
-                                        },
-                                        {
-                                            onSuccess: () => {
-                                                toast.dismiss();
-                                                toast.success(`${products.name} added to cart!`);
-                                                // openDrawer();
-                                                setDrawerOpen(true);
-                                            },
-                                            onError: () => {
-                                                toast.dismiss();
-                                                toast.error("Failed to add to cart. Please try again.");
-                                            },
-                                        }
-                                    )
-                                }
+                                onClick={handleAddToCart}
                                 className="bg-[#e6aeb2] hover:bg-[#d7999d] text-white py-3 px-6 rounded-md w-full flex justify-center items-center gap-2"
                             >
                                 Add to cart
