@@ -36,13 +36,13 @@ export default function ClientLayout({
   return (
     <html lang="en" className={`${Wilkyasta.variable} ${PlayfairDisplay.variable} font-sans`}>
       <body>
-        <CartDrawerProvider>
-          <Providers>
-            <Navbar />
-            {children}
-            <Footer />
-          </Providers>
-        </CartDrawerProvider>
+
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
+
       </body>
     </html>
   );

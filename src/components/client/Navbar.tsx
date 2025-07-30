@@ -18,7 +18,14 @@ import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LocalUserType } from "@/app/(dashboard)/admin/settings/manage-profile/page";
 import { useNavMenu } from "@/hooks/useNavMenu";
-import { ShoppingBag } from "lucide-react";
+import { Bell, Gift, HelpCircle, LogOut, ScanLine, Settings, ShieldCheck, ShoppingBag, UserIcon } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import { logout } from '@/actions/logout.action';
 
 const collections = [
   {
@@ -160,9 +167,24 @@ const collections = [
     ],
   },
 ];
+
+
+
+const profileMenus = [
+  // { title: "Feedback", icon: <Bell size={20} />, to: "/settings/feedback" },
+  {
+    title: "Help & Support",
+    icon: <HelpCircle size={20} />,
+    to: "/help-support",
+  },
+  { title: "Policy", icon: <ShieldCheck size={20} />, to: "" },
+  // { title: "Settings", icon: <Settings size={20} />, to: "/settings" },
+];
+
 export default function Navbar() {
   const [user, setUser] = useState<LocalUserType | null>();
   const { data: menu, isLoading, isError } = useNavMenu();
+  const [popoverOpen, setPopoverOpen] = useState(false);
   // console.log("Menu data", menu)
 
 
@@ -190,7 +212,7 @@ export default function Navbar() {
       setUser(parsedUserData);
       console.log("User data", user);
     }
-  }, [0]);
+  }, []);
   // const collectionsWithChildren = collections.filter(
   //   (collection) => collection.children
   // );
@@ -277,6 +299,7 @@ export default function Navbar() {
 
         {/* cart & Login */}
         <div className="flex justify-between items-center gap-11">
+
           <div>
             {/* <svg
               width="29"
@@ -297,22 +320,51 @@ export default function Navbar() {
 
           </div>
           {user ? (
-            <Avatar>
-              <AvatarImage
-                src={user.image}
-                alt="User Profile"
-              />
-              <AvatarFallback>
-                {user.name ? user.name.charAt(0).toUpperCase() : "PK"}
-              </AvatarFallback>
-            </Avatar>
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Avatar className="cursor-pointer">
+                  <AvatarImage src={user.image || "https://github.com/shadcn.png"} alt="User Profile" />
+                  <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : "PK"}</AvatarFallback>
+                </Avatar>
+              </PopoverTrigger>
+              <PopoverContent className="w-fit border-border/50 p-1" align="end">
+                <ul>
+                  {profileMenus.map((item, idx) => (
+                    <li key={idx} onClick={() => setPopoverOpen(false)} className="">
+                      <Link
+                        className="text-muted-foreground flex items-center gap-4 justify-between hover:bg-secondary p-1 px-2 cursor-pointer transition rounded-sm text-base"
+                        href={item.to}
+                      >
+                        {item.title}
+                        {item.icon}
+                      </Link>
+                    </li>
+                  ))}
+
+                  <li
+                    onClick={() => {
+                      setPopoverOpen(false);
+                      // logout() -> logout function will be called here
+                      logout(setUser);
+
+                    }}
+                    className="text-destructive flex gap-4 justify-between hover:bg-secondary p-1 px-2 cursor-pointer transition rounded-sm text-base"
+                  >
+                    LogOut
+                    <LogOut size={20} />
+                  </li>
+                </ul>
+              </PopoverContent>
+            </Popover>
           ) : (
             <Button>
               <Link href="/accounts/login">Login</Link>
             </Button>
-          )}
+          )
+
+          }
         </div>
       </nav>
-    </header>
+    </header >
   );
 }
