@@ -19,6 +19,7 @@ export const GET = async () => {
     return {
       _id: collection._id,
       name: collection.name,
+      slug: collection.slug,
       subcollections: subs.map((sub) => ({
         _id: sub._id,
         name: sub.name,

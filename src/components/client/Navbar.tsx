@@ -255,7 +255,7 @@ export default function Navbar() {
                     {menu?.map((collection) => (
                       <div key={collection._id} className="space-y-2">
                         <Link
-                          href={`/collection/${collection._id}`}
+                          href={`/collections/${collection.slug}`}
                           className="font-semibold block"
                         >
                           {collection.name}

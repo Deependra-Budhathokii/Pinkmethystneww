@@ -8,6 +8,7 @@ export type SubCollectionType = {
 export type CollectionNavItem = {
   _id: string;
   name: string;
+  slug: string;
   subcollections: SubCollectionType[];
 };
 

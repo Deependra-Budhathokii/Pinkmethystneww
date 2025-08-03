@@ -24,7 +24,7 @@ export default function ProductCard({ data: product }: { data: ProductProps }) {
       <div className="p-4">
         <Image src={product.images[0]} className="h-[274px] w-full rounded-lg" height={100} width={230} alt={product.name} />
         <h3 className="capitalize font-semibold font-playfairdisplay text-xl my-4">
-          <Link href={`/collection/${currentPath}/${product._id}`}>
+          <Link href={`/collections/${currentPath}/${product._id}`}>
             {product.name}
           </Link>
         </h3>
