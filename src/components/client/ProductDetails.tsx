@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
-import React, { Suspense, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperCore } from 'swiper/types';
@@ -14,80 +13,66 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-import chartSize from "@/../public/size/sizeChart.png";
-import { useProduct } from '@/hooks/use-products';
-import { useReviews } from '@/hooks/use-reviews';
+import chartSize from '@/../public/size/sizeChart.png';
 import LoadingSpinner from '@/components/loader/loading';
+import { useReviews } from '@/hooks/use-reviews';
 import { useAddToCart } from '@/hooks/useAddToCart';
-import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
-import { useCartDrawer } from '@/context/cartDrawerContext';
+import toast, { Toaster } from 'react-hot-toast';
 import CartDrawer from '@/components/cart/CartDrawer';
 import { useUser } from '@/context/UserContext';
-import { useRouter } from "next/navigation";
 
+interface ProductDetailsProps {
+    product: any;
+}
 
-
-
-const ProductDetails = ({ params }: { params: { productId: string } }) => {
-
-    const router = useRouter();
+const ProductDetails = ({ product }: ProductDetailsProps) => {
     const { mutate: addToCart, isPending } = useAddToCart();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const { user } = useUser();
-    // const { openDrawer } = useCartDrawer();
-
-
-    const { productId } = params;
-    const swiperRef = React.useRef<any>(null);
+    const swiperRef = useRef<any>(null);
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
-
-    const { data: products, isLoading, error } = useProduct(productId);
     const { data: allreviews } = useReviews();
-    const reviews = allreviews?.filter((review) => review.product._id === productId).map((review) => ({
-        id: review._id,
-        review: review.review,
-        userPhoto: review.user.image,
-        rating: review.rating,
-        userName: review.user.name,
-    })).slice(0, 4);
 
-    React.useEffect(() => {
-        if (swiperRef.current) {
-            swiperRef.current.navigation.init();
-            swiperRef.current.navigation.update();
-        }
-    }, []);
+    // const reviews = allreviews?.filter(
+    //     (review) => review.product._id === product._id
+    // ).map((review) => ({
+    //     id: review._id,
+    //     review: review.review,
+    //     userPhoto: review.user.image,
+    //     rating: review.rating,
+    //     userName: review.user.name,
+    // })).slice(0, 4);
 
-    if (isLoading) return <LoadingSpinner />;
-    if (error) return <div>Error loading product</div>;
+    // useEffect(() => {
+    //     if (swiperRef.current) {
+    //         swiperRef.current.navigation.init();
+    //         swiperRef.current.navigation.update();
+    //     }
+    // }, []);
 
-    // Handle Add to cart Function
     const handleAddToCart = () => {
         if (!user) {
             toast.error("Please log in to add items to your cart.");
             setTimeout(() => {
-                router.push("/accounts/login");
+                window.location.href = "/accounts/login";
             }, 1000);
-
             return;
-
         }
 
-        if (!products || !products._id) {
+        if (!product || !product._id) {
             toast.error("Invalid product data.");
             return;
         }
 
         addToCart(
             {
-                productId: products._id,
+                productId: product._id,
                 quantity: 1,
             },
             {
                 onSuccess: () => {
                     toast.dismiss();
-                    toast.success(`${products.name} added to cart!`);
+                    toast.success(`${product.name} added to cart!`);
                     setDrawerOpen(true);
                 },
                 onError: () => {
@@ -98,17 +83,16 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
         );
     };
 
+    if (!product) return <LoadingSpinner />;
+
     return (
         <>
-
             <CartDrawer open={drawerOpen} onOpenChange={setDrawerOpen} />
-
             <div className='font-playfairdisplay container mx-auto'>
                 <Toaster position="top-center" reverseOrder={false} />
 
                 <div className="mt-10 flex gap-8 flex-wrap lg:flex-nowrap">
-
-                    {/* Product Image & Gallery */}
+                    {/* Product Image */}
                     <div className="w-full lg:w-[35%]">
                         <Swiper
                             spaceBetween={10}
@@ -119,7 +103,7 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                             modules={[FreeMode, Navigation, Thumbs]}
                             className="mySwiper2 text-white max-h-[500px]"
                         >
-                            {products?.images.map((image, idx) => (
+                            {product?.images.map((image, idx) => (
                                 <SwiperSlide key={idx}>
                                     <div className="relative">
                                         <Image src={image} width={500} height={300} alt='Product Image' style={{ height: "450px", width: "500px", objectFit: "cover" }} />
@@ -130,12 +114,8 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                         </Swiper>
 
                         <div className="flex gap-4 justify-center mt-4">
-                            <button className="custom-prev-button p-3 border border-secondary rounded-lg">
-                                ‹
-                            </button>
-                            <button className="custom-next-button p-3 border border-secondary rounded-lg">
-                                ›
-                            </button>
+                            <button className="custom-prev-button p-3 border border-secondary rounded-lg">‹</button>
+                            <button className="custom-next-button p-3 border border-secondary rounded-lg">›</button>
                         </div>
 
                         <Swiper
@@ -147,7 +127,7 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                             modules={[FreeMode, Navigation, Thumbs]}
                             className="mySwiper cursor-pointer mt-4"
                         >
-                            {products?.images.map((image, idx) => (
+                            {product?.images.map((image, idx) => (
                                 <SwiperSlide key={idx}>
                                     <Image src={image} width={120} height={100} style={{ height: "100px" }} alt='Product Thumbnail' />
                                 </SwiperSlide>
@@ -158,25 +138,25 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                     {/* Product Info */}
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-                            <h4 className='text-3xl font-semibold'>{products?.name}</h4>
+                            <h4 className='text-3xl font-semibold'>{product?.name}</h4>
                             <span className="text-sm text-green-600 font-semibold">In Stock</span>
                         </div>
 
                         <div className="flex gap-8 items-center flex-wrap">
                             <div className="flex items-baseline gap-2">
-                                <span className='text-2xl font-semibold'>Rs. {products?.final_price}</span>
-                                <span className="line-through text-gray-400 text-lg">Rs. {products?.original_price}</span>
+                                <span className='text-2xl font-semibold'>Rs. {product?.final_price}</span>
+                                <span className="line-through text-gray-400 text-lg">Rs. {product?.original_price}</span>
                             </div>
                             <div className="inline-flex items-center gap-2 text-sm">
-                                <StarRating rating={products?.rating_avg ?? 0} />
-                                <span className="text-gray-500">{products?.review_count ?? 0} Reviews</span>
+                                <StarRating rating={product?.rating_avg ?? 0} />
+                                <span className="text-gray-500">{product?.review_count ?? 0} Reviews</span>
                             </div>
                         </div>
 
                         <div>
                             <span>Available Colors</span>
                             <div className="flex gap-4 mt-3 flex-wrap">
-                                {products?.color.map((color) => (
+                                {product?.color.map((color) => (
                                     <div key={color} className='rounded-md h-8 w-12 border' style={{ background: color }}></div>
                                 ))}
                             </div>
@@ -185,7 +165,7 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                         <div>
                             <span>Available Sizes</span>
                             <div className="flex gap-4 mt-3 flex-wrap">
-                                {products?.size.map((size) => (
+                                {product?.size.map((size) => (
                                     <div key={size} className='rounded-md border py-2 px-4'>{size}</div>
                                 ))}
                             </div>
@@ -197,12 +177,10 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                         </div>
 
                         <div className='flex gap-3 items-center'>
-                            {/* <svg ... /> */}
                             <span>Size Chart :</span>
                         </div>
                         <Image src={chartSize} alt='Size Chart' style={{ width: "100%", maxHeight: "200px", objectFit: "contain" }} />
 
-                        {/* Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full max-w-md">
                             <button
                                 disabled={isPending}
@@ -211,24 +189,22 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                             >
                                 Add to cart
                             </button>
-
                             <button className="border border-[#805387] text-[#805387] py-3 px-6 rounded-md w-full">
                                 Buy Now
                             </button>
                         </div>
-
                     </div>
                 </div>
 
                 <div className="my-6">
                     <span className='text-2xl font-bold'>Product Description</span>
-                    <p className="mt-4">{products?.description}</p>
+                    <p className="mt-4">{product?.description}</p>
                 </div>
 
                 <div className="my-6">
                     <span className='text-xl font-bold'>Features</span>
                     <ul className="mt-4 space-y-1">
-                        {products?.features.map((feature) => (
+                        {product?.features.map((feature) => (
                             <li key={feature._id}>{feature.name} : {feature.value}</li>
                         ))}
                     </ul>
@@ -240,7 +216,7 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                         <Link href={`/admin/reviews/`} className='underline text-secondary'>View All Reviews</Link>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {/* <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {reviews?.length === 0 ? (
                             <span className='italic'>Reviews Not Added For This Product</span>
                         ) : (
@@ -255,7 +231,7 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
                                 </div>
                             ))
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
@@ -279,6 +255,4 @@ export const StarRating = ({ rating }: { rating: number }) => {
     );
 };
 
-
 export default ProductDetails;
-// export default Page;

@@ -1,4 +1,5 @@
 import { Schema, models, model } from "mongoose";
+import slugify from "slugify";
 
 const ProductSchema = new Schema(
   {
@@ -7,6 +8,8 @@ const ProductSchema = new Schema(
       required: true,
       trim: true,
     },
+    slug: { type: String, unique: true },
+
     description: {
       type: String,
       required: true,
@@ -81,6 +84,14 @@ const ProductSchema = new Schema(
     suppressReservedKeysWarning: true,
   }
 );
+
+// Auto-generate slug before save
+ProductSchema.pre("save", function (next) {
+  if (this.isModified("name") || !this.slug) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
+  }
+  next();
+});
 
 // Calculate final price and availability before validation
 ProductSchema.pre("validate", function (next) {

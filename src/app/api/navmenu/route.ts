@@ -23,6 +23,7 @@ export const GET = async () => {
       subcollections: subs.map((sub) => ({
         _id: sub._id,
         name: sub.name,
+        slug: sub.slug,
       })),
     };
   });

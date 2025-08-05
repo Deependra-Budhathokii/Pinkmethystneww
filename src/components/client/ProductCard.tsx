@@ -8,13 +8,14 @@ import { usePathname } from "next/navigation";
 export type ProductProps = {
   _id: string,
   name: string,
+  slug: string,
   final_price: number,
   price: number,
   images: string[],
   discount?: number
 }
 
-export default function ProductCard({ data: product }: { data: ProductProps }) {
+export default function ProductCard({ data: product, collectionSlug, subcollectionSlug }: { data: ProductProps }) {
 
   const pathname = usePathname();
   const currentPath = pathname.split('/').pop();
@@ -24,7 +25,7 @@ export default function ProductCard({ data: product }: { data: ProductProps }) {
       <div className="p-4">
         <Image src={product.images[0]} className="h-[274px] w-full rounded-lg" height={100} width={230} alt={product.name} />
         <h3 className="capitalize font-semibold font-playfairdisplay text-xl my-4">
-          <Link href={`/collections/${currentPath}/${product._id}`}>
+          <Link href={`/collections/${collectionSlug}/${subcollectionSlug}/${product.slug}`}>
             {product.name}
           </Link>
         </h3>

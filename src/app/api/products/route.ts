@@ -229,15 +229,25 @@ export const POST = async (request: Request) => {
       }
 
       // Check if product type belongs to subcollection
-      if (
-        subCollection &&
-        productType.subcollection.toString() !== subCollection._id.toString()
-      ) {
+      // if (
+      //   subCollection &&
+      //   productType.subcollection.toString() !== subCollection._id.toString()
+      // ) {
+      //   return new NextResponse(
+      //     JSON.stringify({
+      //       message:
+      //         "ProductType does not belong to the specified SubCollection",
+      //     }),
+      //     { status: 400 }
+      //   );
+      // }
+    }
+
+    if (body.productType && Types.ObjectId.isValid(body.productType)) {
+      productType = await ProductType.findById(body.productType);
+      if (!productType) {
         return new NextResponse(
-          JSON.stringify({
-            message:
-              "ProductType does not belong to the specified SubCollection",
-          }),
+          JSON.stringify({ message: "Invalid ProductType" }),
           { status: 400 }
         );
       }

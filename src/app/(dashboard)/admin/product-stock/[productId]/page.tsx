@@ -19,10 +19,13 @@ import { useProduct, useProducts } from '@/hooks/use-products';
 import LoadingSpinner from '@/components/loader/loading';
 import { useReviews } from '@/hooks/use-reviews';
 
-const page = ({ params }: { params: Promise<{ productId: string }> }) => {
+// const page = ({ params }: { params: Promise<{ productId: string }> }) => {
 
-    const unwrappedParams = React.use(params);
-    const { productId } = unwrappedParams;
+//     const unwrappedParams = React.use(params);
+//     const { productId } = unwrappedParams;
+
+const page = ({ params }: { params: { productId: string } }) => {
+    const { productId } = params;
     const swiperRef = React.useRef<any>(null);
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
 

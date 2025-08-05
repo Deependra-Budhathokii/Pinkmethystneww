@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 export type SubCollectionType = {
   _id: string;
   name: string;
+  slug: string;
 };
 
 export type CollectionNavItem = {

@@ -266,7 +266,7 @@ export default function Navbar() {
                             {collection.subcollections.map((sub) => (
                               <li key={sub._id}>
                                 <Link
-                                  href={`/collections/${collection._id}/${sub._id}`}
+                                  href={`/collections/${collection.slug}/${sub.slug}`}
                                   className="text-sm text-gray-700 py-1 block"
                                 >
                                   {sub.name}
