@@ -1,6 +1,6 @@
 "use client";
 
-import { useProducts, useProduct, useProductsByCollection, useProductsBySubCollection } from "@/hooks/use-products";
+import { useProducts, useProd, useProductsByCollection, useProductsBySubCollection } from "@/hooks/use-products";
 import ProductCard from "@/components/client/ProductCard";
 import { notFound } from "next/navigation";
 import ProductDetails from "@/components/client/ProductDetails";
@@ -9,7 +9,6 @@ export default function CollectionRouterPage({ params }: { params: { slug: strin
     const slug = params.slug || [];
 
     // console.log("productData", slug)
-
     // Example paths:
     // /by-season → slug = ["by-season"]
     // /by-season/winter → slug = ["by-season", "winter"]
@@ -71,7 +70,7 @@ export default function CollectionRouterPage({ params }: { params: { slug: strin
         const productSlug = slug[slug.length - 1];
         console.log("productslug", productSlug)
 
-        const { data: product, isLoading, error } = useProduct(productSlug);
+        const { data: product, isLoading, error } = useProd(productSlug);
 
         if (isLoading) return <p>Loading product...</p>;
         if (error || !product) return notFound();

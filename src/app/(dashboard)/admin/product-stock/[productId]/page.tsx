@@ -19,10 +19,7 @@ import { useProduct, useProducts } from '@/hooks/use-products';
 import LoadingSpinner from '@/components/loader/loading';
 import { useReviews } from '@/hooks/use-reviews';
 
-// const page = ({ params }: { params: Promise<{ productId: string }> }) => {
 
-//     const unwrappedParams = React.use(params);
-//     const { productId } = unwrappedParams;
 
 const page = ({ params }: { params: { productId: string } }) => {
     const { productId } = params;
@@ -31,6 +28,7 @@ const page = ({ params }: { params: { productId: string } }) => {
 
     // Products Data
     const { data: products, isLoading, error } = useProduct(productId);
+    console.log("productssss", products);
     const { data: allreviews } = useReviews()
     const reviews = allreviews?.filter((review) => review.product._id === productId).map((review) => ({
         id: review._id,

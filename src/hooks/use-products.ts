@@ -9,16 +9,16 @@ export const useProducts = () => {
   });
 };
 
-// export const useProduct = (productId: string) => {
-//   return useQuery({
-//     queryKey: ["products", productId],
-//     queryFn: () => getProduct(productId),
-//     enabled: !!productId,
-//   });
-// };
+export const useProduct = (productId: string) => {
+  return useQuery({
+    queryKey: ["products", productId],
+    queryFn: () => getProduct(productId),
+    enabled: !!productId,
+  });
+};
 
 //Product pages
-export const useProduct = (slug: string) => {
+export const useProd = (slug: string) => {
   return useQuery({
     queryKey: ["product", slug],
     queryFn: async () => {
