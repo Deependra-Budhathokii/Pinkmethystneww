@@ -230,7 +230,7 @@ export default function Navbar() {
   const collectionsWithChildren = menu.filter((item: any) => item.children?.length);
   const collectionsWithoutChildren = menu.filter((item: any) => !item.children?.length);
   return (
-    <header className="container mx-auto w-full py-8">
+    <header className=" mx-auto w-full py-8 container">
       <nav className="sticky top-0 w-full flex justify-between items-center gap-10">
         {/* Logo */}
         <div>
@@ -284,7 +284,7 @@ export default function Navbar() {
 
 
             <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/about-us" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   About Us
                 </NavigationMenuLink>
@@ -302,7 +302,6 @@ export default function Navbar() {
 
         {/* cart & Login */}
         <div className="flex justify-between items-center gap-11">
-
           <div>
             {/* <svg
               width="29"

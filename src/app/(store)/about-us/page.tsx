@@ -13,49 +13,49 @@ const AboutUsPage: React.FC = () => {
         {
             id: '1',
             title: 'Tops For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Tops'
         },
         {
             id: '2',
             title: 'Tops For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Tops'
         },
         {
             id: '3',
             title: 'Tops For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Tops'
         },
         {
             id: '4',
             title: 'Tops For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Tops'
         },
         {
             id: '5',
             title: 'Dresses For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Dresses'
         },
         {
             id: '6',
             title: 'Dresses For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Dresses'
         },
         {
             id: '7',
             title: 'Dresses For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Dresses'
         },
         {
             id: '8',
             title: 'Dresses For Woman',
-            image: '/api/placeholder/300/400',
+            image: '/images/tops-for-woman.svg',
             category: 'Dresses'
         }
     ];
@@ -84,9 +84,10 @@ const AboutUsPage: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br font-wilkyasta bg-[#fdf6f8]">
+        <div className="container mx-auto min-h-screen bg-gradient-to-br font-playfairdisplay ">
             {/* Header Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> */}
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div>
                     <div className="mb-8 sm:mb-16" >
                         <h2 className="text-[40px] mb-4 max-w-fit relative  before:bg-[#2F2F2F] before:w-full before:bottom-1">About <span className="text-[28px]">Us</span></h2>
@@ -94,7 +95,7 @@ const AboutUsPage: React.FC = () => {
                 </div>
 
                 {/* Welcome Section */}
-                <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-16">
+                <div className="bg-white rounded-2xl  p-8 md:p-12 mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8">
                         Welcome to Pink Amethyst Clothing Shop!
                     </h2>
@@ -114,7 +115,7 @@ const AboutUsPage: React.FC = () => {
 
 
                 {/* Our Collection Section */}
-                <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div className="bg-white rounded-2xl  p-8 md:p-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">
                         Our <span className="text-pink-500">Collection</span>
                     </h2>
@@ -122,7 +123,7 @@ const AboutUsPage: React.FC = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {collectionItems.map((item) => (
-                            <div key={item.id} className="group cursor-pointer">
+                            <div key={item.id} className="group cursor-pointer w-[260px] h-[382px]">
                                 <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl">
                                     <img
                                         src={item.image}
@@ -147,7 +148,7 @@ const AboutUsPage: React.FC = () => {
 
 
             </div>
-        </div>
+        </div >
     );
 };
 
