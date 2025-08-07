@@ -1,10 +1,13 @@
 import { Mail, MapPin, Phone, Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer className="container bg-gradient-to-br from-[#FF9FAB] to-[#8A4F9E] text-white pt-16 pb-6 px-4 md:px-12 lg:px-24 font-playfairdisplay">
+        <footer className=" bg-gradient-to-br from-[#FF9FAB] to-[#8A4F9E] text-white pt-16 pb-6 p-12 font-playfairdisplay">
+            {/* <footer className=" bg-gradient-to-br from-[#FF9FAB] to-[#8A4F9E] text-white pt-16 pb-6 px-4 md:px-12 lg:px-24 font-playfairdisplay"> */}
             {/* Newsletter */}
             <div className="text-center mb-12">
                 <h2 className="text-2xl md:text-3xl font-semibold mb-2">Sign Up For The Newsletter</h2>
@@ -42,9 +45,15 @@ export default function Footer() {
                 <div>
                     <h3 className="font-semibold mb-4 text-lg">Quick Links</h3>
                     <ul className="space-y-2">
-                        <li>About Us</li>
-                        <li>Categories</li>
-                        <li>Contact Us</li>
+                        <li>
+                            <Link href="/about" className="hover:underline">About Us</Link>
+                        </li>
+                        <li>
+                            <Link href="/collection" className="hover:underline">Collection</Link>
+                        </li>
+                        <li>
+                            <Link href="/contact" className="hover:underline">Contact Us</Link>
+                        </li>
                     </ul>
                 </div>
 
@@ -76,9 +85,9 @@ export default function Footer() {
                 <div>© Copyright 2023 <span className="font-semibold">MetaLogic Software Pvt. Ltd</span>. All rights reserved.</div>
                 <div className="flex items-center gap-3 text-white text-sm">
                     <span className="opacity-80">We Accept</span>
-                    <img src="/icons/esewa.png" alt="eSewa" className="h-5" />
-                    <img src="/icons/khalti.png" alt="Khalti" className="h-5" />
-                    <img src="/icons/imepay.png" alt="IMEPay" className="h-5" />
+                    <Image src="/images/esewa.svg" width={50} height={20} alt="eSewa" className="bg-white" />
+                    <Image src="/images/khalti.svg" width={50} height={20} alt="Khalti" className="bg-white" />
+                    <Image src="/images/ime-pay.svg" width={50} height={20} alt="IMEPay" className="bg-white" />
                 </div>
             </div>
         </footer>
