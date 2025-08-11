@@ -221,7 +221,7 @@ const page = ({ params }: { params: { productId: string } }) => {
     )
 }
 
-export const StarRating = ({ rating }: { rating: number }) => {
+const StarRating = ({ rating }: { rating: number }) => {
     const fullStars = Math.floor(rating); // Count of full stars
     const totalStars = 5; // Total number of stars
 
