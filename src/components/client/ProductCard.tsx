@@ -15,17 +15,26 @@ export type ProductProps = {
   discount?: number
 }
 
-export default function ProductCard({ data: product, collectionSlug, subcollectionSlug }: { data: ProductProps }) {
+export default function ProductCard({ data: product, collectionSlug, subcollectionSlug }: {
+  data: ProductProps; collectionSlug?: string;
+  subcollectionSlug?: string;
+}) {
 
   const pathname = usePathname();
   const currentPath = pathname.split('/').pop();
+  let productUrl = `/collections/${collectionSlug}`;
+  if (subcollectionSlug) {
+    productUrl += `/${subcollectionSlug}`;
+  }
+  productUrl += `/${product.slug}`;
 
   return (
     <div className="border border-secondary rounded-lg relative">
       <div className="p-4">
         <Image src={product.images[0]} className="h-[274px] w-full rounded-lg" height={100} width={230} alt={product.name} />
         <h3 className="capitalize font-semibold font-playfairdisplay text-xl my-4">
-          <Link href={`/collections/${collectionSlug}/${subcollectionSlug}/${product.slug}`}>
+          {/* <Link href={`/collections/${collectionSlug}/${subcollectionSlug}/${product.slug}`}> */}
+          <Link href={productUrl}>
             {product.name}
           </Link>
         </h3>
