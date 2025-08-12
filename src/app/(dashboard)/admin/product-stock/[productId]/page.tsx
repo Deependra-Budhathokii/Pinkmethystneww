@@ -10,6 +10,7 @@ import { Swiper as SwiperCore } from 'swiper/types';
 import { useParams } from 'next/navigation';
 
 
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -18,6 +19,7 @@ import 'swiper/css/scrollbar';
 import { useProduct, useProducts } from '@/hooks/use-products';
 import LoadingSpinner from '@/components/loader/loading';
 import { useReviews } from '@/hooks/use-reviews';
+import { StarRating } from '@/components/admin/StartRating';
 
 
 
@@ -182,7 +184,7 @@ const page = ({ params }: { params: { productId: string } }) => {
             <div className="my-6">
                 <span className='text-xl font-bold'>Features</span>
                 <div className="mt-4">
-                    {products && products.features.map((feature) => (
+                    {products && products.features?.map((feature) => (
                         <li key={feature._id} >{feature.name} : {feature.value}</li>
                     ))}
                 </div>
@@ -221,39 +223,7 @@ const page = ({ params }: { params: { productId: string } }) => {
     )
 }
 
-const StarRating = ({ rating }: { rating: number }) => {
-    const fullStars = Math.floor(rating); // Count of full stars
-    const totalStars = 5; // Total number of stars
 
-    return (
-        <div className="flex">
-            {/* Render stars */}
-            {Array.from({ length: totalStars }).map((_, index) => {
-                if (index < fullStars) {
-                    // Full stars
-                    return (
-                        <Star
-                            key={`full-${index}`}
-                            height={12}
-                            width={12}
-                            className="text-yellow-500"
-                            fill="currentColor"
-                        />
-                    );
-                }
-                // Empty stars
-                return (
-                    <StarOff
-                        key={`empty-${index}`}
-                        height={12}
-                        width={12}
-                        className="text-gray-400"
-                    />
-                );
-            })}
-        </div>
-    );
-};
 
 
 export default page

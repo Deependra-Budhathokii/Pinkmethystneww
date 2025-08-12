@@ -103,7 +103,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                             modules={[FreeMode, Navigation, Thumbs]}
                             className="mySwiper2 text-white max-h-[500px]"
                         >
-                            {product?.images.map((image, idx) => (
+                            {product?.images.map((image: any, idx: any) => (
                                 <SwiperSlide key={idx}>
                                     <div className="relative">
                                         <Image src={image} width={500} height={300} alt='Product Image' style={{ height: "450px", width: "500px", objectFit: "cover" }} />
@@ -127,7 +127,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                             modules={[FreeMode, Navigation, Thumbs]}
                             className="mySwiper cursor-pointer mt-4"
                         >
-                            {product?.images.map((image, idx) => (
+                            {product?.images.map((image: any, idx: any) => (
                                 <SwiperSlide key={idx}>
                                     <Image src={image} width={120} height={100} style={{ height: "100px" }} alt='Product Thumbnail' />
                                 </SwiperSlide>
@@ -156,7 +156,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                         <div>
                             <span>Available Colors</span>
                             <div className="flex gap-4 mt-3 flex-wrap">
-                                {product?.color.map((color) => (
+                                {product?.color.map((color: any) => (
                                     <div key={color} className='rounded-md h-8 w-12 border' style={{ background: color }}></div>
                                 ))}
                             </div>
@@ -165,7 +165,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                         <div>
                             <span>Available Sizes</span>
                             <div className="flex gap-4 mt-3 flex-wrap">
-                                {product?.size.map((size) => (
+                                {product?.size.map((size: any) => (
                                     <div key={size} className='rounded-md border py-2 px-4'>{size}</div>
                                 ))}
                             </div>
@@ -204,7 +204,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 <div className="my-6">
                     <span className='text-xl font-bold'>Features</span>
                     <ul className="mt-4 space-y-1">
-                        {product?.features.map((feature) => (
+                        {product?.features.map((feature: any) => (
                             <li key={feature._id}>{feature.name} : {feature.value}</li>
                         ))}
                     </ul>

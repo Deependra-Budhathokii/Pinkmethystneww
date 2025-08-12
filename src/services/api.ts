@@ -63,11 +63,12 @@ export interface Feature {
 export interface Product {
   _id: string;
   name: string;
+  slug: string; // Add this
   description: string;
   images: string[];
   price: number;
   final_price: number;
-  discount?: number;
+  discount?: number; // Add this
   size: string[];
   color: string[];
   collection?: Collection;

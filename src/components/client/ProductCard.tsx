@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export type ProductProps = {
   _id: string,
   name: string,
-  slug: string,
+  slug?: string,        // Make optional
   final_price: number,
   price: number,
   images: string[],

@@ -10,7 +10,6 @@ import { Toaster } from "@/components/ui/sonner";
 // import { contactSchema, TcontactSchema } from '@/schemas/contact.schema';
 // import { addMessage } from '@/actions/contact.action';
 import { toast } from "sonner";
-import { contactSchema, TcontactSchema } from "@/schemas/contact.schema";
 import { addMessage } from "@/actions/contact.action";
 import { useForm } from "react-hook-form";
 

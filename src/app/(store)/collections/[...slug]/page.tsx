@@ -51,7 +51,7 @@ export default function CollectionRouterPage({ params }: { params: { slug: strin
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {products?.map((product) => (
+                    {products?.map((product: any) => (
                         <ProductCard key={product._id} data={product} collectionSlug={collectionSlug} />
                     ))}
                 </div>
@@ -157,7 +157,7 @@ export default function CollectionRouterPage({ params }: { params: { slug: strin
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {products?.map((product) => (
+                    {products?.map((product: any) => (
                         <ProductCard key={product._id} data={product} collectionSlug={collectionSlug}
                             subcollectionSlug={secondSlug} />
                     ))}

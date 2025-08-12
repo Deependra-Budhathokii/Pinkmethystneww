@@ -159,7 +159,11 @@ export function RevenueChart({ chartData }: any) {
                             stroke="var(--color-desktop)"
                             stackId="a"
                         />
-                        <ChartLegend content={<ChartLegendContent />} />
+                        <ChartLegend
+                            content={({ payload }) => (
+                                <ChartLegendContent payload={payload} />
+                            )}
+                        />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>

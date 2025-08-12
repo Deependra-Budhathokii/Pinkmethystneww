@@ -1,10 +1,11 @@
 "use client"
 
+import { StarRating } from '@/components/admin/StartRating'
 import LoadingSpinner from '@/components/loader/loading'
 import { useReview } from '@/hooks/use-reviews'
 import Image from 'next/image'
 import React from 'react'
-import { StarRating } from '../../product-stock/[productId]/page'
+// import { StarRating } from '../../product-stock/[productId]/page'
 
 const page = ({ params }: { params: Promise<{ id: string }> }) => {
 

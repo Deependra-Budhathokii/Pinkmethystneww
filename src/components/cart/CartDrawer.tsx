@@ -30,7 +30,7 @@ const CartDrawer = ({
     };
 
     const handleRemove = (productId: string) => {
-        removeFromCart({ productId });
+        removeFromCart(productId);
     };
 
     const subtotal = cart.reduce(
