@@ -172,6 +172,14 @@ export default function AddProductPage() {
     localStorage.setItem("productData", JSON.stringify(productData));
     setIsReviewMode(true);
   };
+  // Function to generate slug from product name
+  const generateSlug = (name: string): string => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+  };
+
   const handleFinalSubmit = (productData: any) => {
     console.log("Product Data:", productData);
     if (!productData.imageUrls || productData.imageUrls.length === 0) {
@@ -184,8 +192,12 @@ export default function AddProductPage() {
     const discount = Number(productData.discount);
     const final_price = price - (price * discount) / 100;
 
+    // Generate slug from product name
+    const slug = generateSlug(productData.name);
+
     createProduct({
       name: productData.name,
+      slug: slug, // Add the generated slug
       price: price,
       final_price: final_price,
       discount: discount,
@@ -198,9 +210,6 @@ export default function AddProductPage() {
         _id: "",
       })),
       images: productData.imageUrls,
-      // collections: collections,
-      // subcollections: subcollections,
-      // productTypes: productTypes,
       collection: productData.collections.collections[0],
       subcollection: productData.collections.subcollections[0],
       productType: productData.collections.productTypes[0],
