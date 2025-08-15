@@ -22,7 +22,6 @@ import { Review } from "@/services/api";
 
 const Reviews = () => {
 
-
     const { data, isLoading, error } = useReviews()
 
     const columns: ColumnDef<Review>[] = [

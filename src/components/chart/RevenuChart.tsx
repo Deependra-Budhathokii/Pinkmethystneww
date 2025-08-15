@@ -160,8 +160,8 @@ export function RevenueChart({ chartData }: any) {
                             stackId="a"
                         />
                         <ChartLegend
-                            content={({ payload }) => (
-                                <ChartLegendContent payload={payload} />
+                            content={(props) => (
+                                <ChartLegendContent {...props} />
                             )}
                         />
                     </AreaChart>

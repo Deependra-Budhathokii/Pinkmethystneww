@@ -38,6 +38,7 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>(
     []
   );
+
   const [searchTerms, setSearchTerms] = useState({
     collections: "",
     subcollections: "",
@@ -60,13 +61,17 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
     data: allProductTypes = [],
     isLoading: isLoadingProductTypes,
     error: productTypesError,
-  } = useProductTypes(selectedSubcollections.join(","));
+  } = useProductTypes();
+
+  // Debug logging
+  console.log('Product Types:', { allProductTypes, isLoadingProductTypes, productTypesError });
 
   const getFilteredItems = useCallback((items: any[], searchTerm: string) => {
     return items.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, []);
+
 
   const handleSearchChange = (
     type: keyof typeof searchTerms,
@@ -93,20 +98,11 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
   };
 
   const handleToggleSubcollection = (subcollectionId: string) => {
-    setSelectedSubcollections((prev) => {
-      if (prev.includes(subcollectionId)) {
-        const relatedProductTypes = allProductTypes
-          .filter((type) => type.subcollectionId === subcollectionId)
-          .map((type) => type._id);
-
-        setSelectedProductTypes((current) =>
-          current.filter((id) => !relatedProductTypes.includes(id))
-        );
-
-        return prev.filter((id) => id !== subcollectionId);
-      }
-      return [...prev, subcollectionId];
-    });
+    setSelectedSubcollections((prev) =>
+      prev.includes(subcollectionId)
+        ? prev.filter((id) => id !== subcollectionId)
+        : [...prev, subcollectionId]
+    );
   };
 
   const handleToggleProductType = (productTypeId: string) => {
@@ -131,8 +127,8 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
       step === 1
         ? collectionsError
         : step === 2
-        ? subCollectionsError
-        : productTypesError;
+          ? subCollectionsError
+          : productTypesError;
 
     if (currentError) {
       return renderError(currentError);
@@ -142,8 +138,8 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
       step === 1
         ? isLoadingCollections
         : step === 2
-        ? isLoadingSubcollections
-        : isLoadingProductTypes;
+          ? isLoadingSubcollections
+          : isLoadingProductTypes;
 
     if (isLoading) {
       return (
@@ -156,24 +152,22 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
     const items =
       step === 1
         ? getFilteredItems(collections, searchTerms.collections).map(
-            (item) => ({
-              ...item,
-            })
-          )
+          (item) => ({
+            ...item,
+          })
+        )
         : step === 2
-        ? getFilteredItems(allSubcollections, searchTerms.subcollections).map(
+          ? getFilteredItems(allSubcollections, searchTerms.subcollections).map(
             (item) => ({
               ...item,
               parentName: collections.find((c) => c._id === item.collectionId)
                 ?.name,
             })
           )
-        : getFilteredItems(allProductTypes, searchTerms.productTypes).map(
+          : getFilteredItems(allProductTypes, searchTerms.productTypes).map(
             (item) => ({
               ...item,
-              parentName: allSubcollections.find(
-                (s) => s._id === item.subcollectionId
-              )?.name,
+              parentName: null // Product types are now independent
             })
           );
 
@@ -184,15 +178,15 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
           step === 1
             ? selectedCollections
             : step === 2
-            ? selectedSubcollections
-            : selectedProductTypes
+              ? selectedSubcollections
+              : selectedProductTypes
         }
         onToggle={
           step === 1
             ? handleToggleCollection
             : step === 2
-            ? handleToggleSubcollection
-            : handleToggleProductType
+              ? handleToggleSubcollection
+              : handleToggleProductType
         }
         parentLabel={step === 2 ? "Collection" : "Subcollection"}
       />
@@ -208,15 +202,15 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
               {step === 1
                 ? "Select Collections"
                 : step === 2
-                ? "Select Subcollections"
-                : "Select Product Types"}
+                  ? "Select Subcollections"
+                  : "Select Product Types"}
             </DialogTitle>
             <SearchInput
               value={
                 searchTerms[
-                  step === 1
-                    ? "collections"
-                    : step === 2
+                step === 1
+                  ? "collections"
+                  : step === 2
                     ? "subcollections"
                     : "productTypes"
                 ]
@@ -226,18 +220,17 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
                   step === 1
                     ? "collections"
                     : step === 2
-                    ? "subcollections"
-                    : "productTypes",
+                      ? "subcollections"
+                      : "productTypes",
                   value
                 )
               }
-              placeholder={`Search ${
-                step === 1
-                  ? "collections"
-                  : step === 2
+              placeholder={`Search ${step === 1
+                ? "collections"
+                : step === 2
                   ? "subcollections"
                   : "product types"
-              }...`}
+                }...`}
             />
           </div>
         </DialogHeader>
@@ -280,8 +273,8 @@ const CollectionSelectorModal: React.FC<CollectionSelectorModalProps> = ({
           {step === 1
             ? `${selectedCollections.length} collections`
             : step === 2
-            ? `${selectedSubcollections.length} subcollections`
-            : `${selectedProductTypes.length} product types`}
+              ? `${selectedSubcollections.length} subcollections`
+              : `${selectedProductTypes.length} product types`}
         </div>
       </DialogContent>
     </Dialog>

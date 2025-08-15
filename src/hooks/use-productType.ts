@@ -5,11 +5,10 @@ import {
   type ProductType,
 } from "@/services/api";
 
-export const useProductTypes = (subCollectionIds: string) => {
+export const useProductTypes = () => {
   return useQuery<ProductType[], Error>({
-    queryKey: ["producttypes", subCollectionIds],
-    queryFn: () => getProductTypes(subCollectionIds.split(",")),
-    enabled: !!subCollectionIds,
+    queryKey: ["producttypes"],
+    queryFn: () => getProductTypes(),
     retry: 1,
     staleTime: 30000,
   });

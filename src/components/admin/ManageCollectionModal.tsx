@@ -53,7 +53,7 @@ const ManageCollectionModal: React.FC<ManageCollectionModalProps> = ({
   const { data: subcollections, isLoading: isLoadingSubcollections } =
     useSubCollections(selectedCollection?._id ?? "");
   const { data: productTypes, isLoading: isLoadingProductTypes } =
-    useProductTypes(selectedSubcollection?._id ?? "");
+    useProductTypes();
 
   // Filter functions
   const filteredCollections = collections?.filter((c) =>

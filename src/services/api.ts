@@ -105,7 +105,6 @@ export interface Subcollection {
 export interface ProductType {
   _id: string;
   name: string;
-  subcollectionId: string;
 }
 
 export interface User {
@@ -219,19 +218,9 @@ export const getSubCollection = async (
   }
 };
 
-export const getProductTypes = async (
-  subCollectionIds?: string | string[]
-): Promise<ProductType[]> => {
+export const getProductTypes = async (): Promise<ProductType[]> => {
   try {
-    let url = "/producttypes";
-    if (subCollectionIds) {
-      const ids = Array.isArray(subCollectionIds)
-        ? subCollectionIds
-        : [subCollectionIds];
-      const queryParams = ids.map((id) => `subCollectionId=${id}`).join("&");
-      url = `/producttypes?${queryParams}`;
-    }
-    const { data } = await api.get(url);
+    const { data } = await api.get("/producttypes");
     return data;
   } catch (error) {
     throw handleApiError(error as AxiosError);
@@ -239,12 +228,10 @@ export const getProductTypes = async (
 };
 
 export const getProductType = async (
-  subCollectionId: string
+  productTypeId: string
 ): Promise<ProductType> => {
   try {
-    const { data } = await api.get(
-      `/producttypes?subCollectionId=${subCollectionId}`
-    );
+    const { data } = await api.get(`/producttypes?id=${productTypeId}`);
     return data;
   } catch (error) {
     throw handleApiError(error as AxiosError);

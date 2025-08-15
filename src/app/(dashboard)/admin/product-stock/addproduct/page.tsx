@@ -151,6 +151,7 @@ export default function AddProductPage() {
     }
     return [];
   };
+
   const router = useRouter();
 
   const [isReviewMode, setIsReviewMode] = useState(false);
