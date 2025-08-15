@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { clearAuthData } from "@/lib/auth";
+// import { clearAuthData } from "@/lib/auth";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ export const useAuth = () => {
       });
 
       // Clear all auth-related data
-      clearAuthData();
+      // clearAuthData();
 
       // Redirect to login page
       router.push("/admin/login");

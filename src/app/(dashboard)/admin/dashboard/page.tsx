@@ -1,6 +1,6 @@
 import LineChart from "@/components/chart/LineChart"
-import { RevenueChart } from "@/components/chart/RevenuChart";
-import { SalesChart } from "@/components/chart/SalesChart";
+// import { RevenueChart } from "@/components/chart/RevenuChart";
+// import { SalesChart } from "@/components/chart/SalesChart";
 
 const Dashboard = () => {
 
@@ -247,11 +247,11 @@ const Dashboard = () => {
             {/* Sales Chart */}
             <div className="bg-white p-4 mt-5 md:mt-[40px] rounded-md">
                 {/* <LineChart chartData={chartData} /> */}
-                <SalesChart chartData={salesChartData} />
+                {/* <SalesChart chartData={salesChartData} /> */}
             </div>
             {/* Revenue Chart */}
             <div className="bg-white p-4 mt-5 md:mt-[40px] rounded-md">
-                <RevenueChart chartData={revenueChartData} />
+                {/* <RevenueChart chartData={revenueChartData} /> */}
             </div>
         </div >
     )
